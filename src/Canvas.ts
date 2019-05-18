@@ -2,6 +2,7 @@ import IDrawable from './interfaces/IDrawable';
 import EventLoop from './EventLoop';
 import IPositionable from "./interfaces/IPositionable";
 import {DEFAULT_CANVAS_BKG_COLOUR} from "./constants";
+import IPoint from "./interfaces/IPoint";
 
 export default class Canvas implements IDrawable {
 
@@ -53,6 +54,13 @@ export default class Canvas implements IDrawable {
 
     static detectEdge(p:IPositionable) : boolean {
         return !p.isWithinRect(0, 0, Canvas.width, Canvas.height);
+    }
+
+    static get centre(): IPoint {
+        return {
+            x: Math.floor(Canvas.width / 2),
+            y: Math.floor(Canvas.height / 2),
+        };
     }
 
     draw(): void {

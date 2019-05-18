@@ -2,7 +2,7 @@ import Canvas from './Canvas';
 import EventLoop from './EventLoop';
 import IDrawable from "./interfaces/IDrawable";
 import IPositionable from "./interfaces/IPositionable";
-import {NO_COLOUR, DEFAULT_STROKE_COLOUR} from "./constants";
+import {NO_COLOUR} from "./constants";
 
 export default class Circle implements IDrawable, IPositionable {
 
@@ -13,9 +13,10 @@ export default class Circle implements IDrawable, IPositionable {
     x = 5;
     y = 5;
     r = 20;
-    fillColour = NO_COLOUR;
-    strokeWidth = 1;
-    strokeColour = DEFAULT_STROKE_COLOUR;
+    fillColour = '#fffa00';
+    strokeWidth = 0;
+    shadowBlur = 0;
+    strokeColour = NO_COLOUR;
 
     draw(): void {
         if(!this.canDraw)
@@ -24,6 +25,8 @@ export default class Circle implements IDrawable, IPositionable {
         this.updateFn();
 
         Canvas.ctx.beginPath();
+        Canvas.ctx.shadowColor = this.fillColour;
+        Canvas.ctx.shadowBlur = this.shadowBlur;
         Canvas.ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
 
         if(this.fillColour !== NO_COLOUR){
