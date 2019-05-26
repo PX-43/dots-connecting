@@ -23,7 +23,7 @@ export default class Dot  {
 
     private static getCountdown(): number { return getRandomInt(50, 400) };
 
-    private setVelocity():void{
+    private setVelocity():void {
 
         if(this.xChangeCountdown > 0) {
             this.xChangeCountdown--;

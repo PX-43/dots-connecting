@@ -1,4 +1,5 @@
 import IDrawable from "./interfaces/IDrawable";
+import TaskRunner from './TaskRunner';
 
 export default class EventLoop {
 
@@ -9,6 +10,7 @@ export default class EventLoop {
 
     private run():void{
         this.drawables.forEach(d => d.draw());
+        TaskRunner.run();
         window.requestAnimationFrame(() => this.run());
     }
 

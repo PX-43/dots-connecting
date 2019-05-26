@@ -1,6 +1,5 @@
 import Circle from './Circle';
 import Canvas from './Canvas';
-import {getRandomInt} from "./util";
 import Dot from "./Dot";
 
 Canvas.background = '#3b3336';
@@ -13,32 +12,22 @@ circle.setUpdateFn( c => {
 
     dot.move();
 
-
 });
 
-/*
+
 let n1 = 0;
 let n2 = 1;
 for(let i = 0; i < 8; i++) {
-    const n_1t = n2;
-    n2 = n1 + n2;
-    n1 = n_1t;
-
-    //console.log(n1);
+    n2 = n2 + n1;
+    n1 = n2 - n1;
 }
-
-//console.log(n1);
 
 function fib(n:number): number {
-
-    if(n === 0) return n;
-
-    const res = n + fib(n-1);
-    console.log(res);
-
-    return res;
+    if(n <= 1) return n;
+    return fib(n-2) + fib(n-1);
 }
 
+const res = fib(9);
 
-fib(4);
-*/
+console.log(res);
+
