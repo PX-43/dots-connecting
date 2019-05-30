@@ -1,6 +1,7 @@
 import Circle from "./Circle";
 import {getRandomInt} from "./util";
 import Canvas from "./Canvas";
+import withFrameDelay from "./withFrameDelay";
 
 const speed  = 0.5;
 const edgeTolerance = 2;
@@ -15,29 +16,23 @@ export default class Dot  {
     xVelocity = Math.random();
     yVelocity = Math.random();
 
-    xChangeCountdown = Dot.getCountdown();
-    yChangeCountdown = Dot.getCountdown();
-
     private xDirection = 1;
     private yDirection = 1;
 
     private static getCountdown(): number { return getRandomInt(50, 400) };
 
     private setVelocity():void {
+        withFrameDelay({
+            fn: () => this.xVelocity = Math.random(),
+            runPoint: Dot.getCountdown(),
+            runPointSetFn: () => Dot.getCountdown(),
+        });
 
-        if(this.xChangeCountdown > 0) {
-            this.xChangeCountdown--;
-        } else {
-            this.xVelocity = Math.random();
-            this.xChangeCountdown = Dot.getCountdown();
-        }
-
-        if(this.yChangeCountdown > 0) {
-            this.yChangeCountdown--;
-        } else {
-            this.yVelocity =  Math.random();
-            this.yChangeCountdown = Dot.getCountdown();
-        }
+        withFrameDelay({
+            fn: () => this.yVelocity = Math.random(),
+            runPoint: Dot.getCountdown(),
+            runPointSetFn: () => Dot.getCountdown(),
+        });
     }
 
     private setDirection = () => {
@@ -51,7 +46,6 @@ export default class Dot  {
 
         this.setDirection();
         this.setVelocity();
-
 
         this.circle.x += speed * this.xDirection * this.xVelocity;
         this.circle.y += speed * this.yDirection * this.yVelocity;

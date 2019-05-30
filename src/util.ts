@@ -10,25 +10,3 @@ export const getRandomInt = (min:number, max:number) : number => {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-
-
-const runAfter = (calls:number , fn:Function ) : {} => {
-  let counter: number = calls;
-
-  return {
-    set callCount(n:number) { calls = n },
-    run() {
-        if(counter > 0) {
-            counter--;
-        } else {
-            counter = calls;
-            fn();
-        }
-    }
-  };
-};
-
-/*
-export const getRunner = (calls:number , fn:Function): Function => {
-   return runAfter(calls, fn);
-};*/
