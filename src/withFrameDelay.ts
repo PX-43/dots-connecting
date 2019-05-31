@@ -1,7 +1,7 @@
 import IFrameDelayable from "./interfaces/IFrameDelayable";
 import IRunnable from "./interfaces/IRunnable";
 
-
+// this is supposed to be called for every frame
 const withFrameDelay = (delayable: IFrameDelayable):IRunnable => {
 
     let counter = delayable.runPoint;

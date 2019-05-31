@@ -1,6 +1,8 @@
-export const dist = (x1:number, y1:number, x2:number, y2:number) : number => {
-  const xdiff = Math.abs(x1 - x2);
-  const ydiff = Math.abs(y1 - y2);
+import IPoint from "./interfaces/IPoint";
+
+export const dist = ( pos1:IPoint, pos2:IPoint ) : number => {
+  const xdiff = Math.abs(pos1.x - pos2.x);
+  const ydiff = Math.abs(pos1.y - pos2.y);
 
   return Math.sqrt(xdiff**2 + ydiff**2);
 };

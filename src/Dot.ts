@@ -2,22 +2,27 @@ import Circle from "./Circle";
 import {getRandomInt} from "./util";
 import Canvas from "./Canvas";
 import withFrameDelay from "./withFrameDelay";
+import IPoint from "./interfaces/IPoint";
 
-const speed  = 0.5;
 const edgeTolerance = 2;
 
 export default class Dot  {
 
-    private constructor(c:Circle){
+    private constructor(c:Circle, initSpeed:number){
         this.circle = c;
+        this.speed = initSpeed;
     }
 
     circle:Circle;
     xVelocity = Math.random();
     yVelocity = Math.random();
 
-    private xDirection = 1;
-    private yDirection = 1;
+    position:() => IPoint = () => ({ x:this.circle.x, y:this.circle.y, z:this.circle.z });
+
+    xDirection = 1;
+    yDirection = 1;
+
+    speed  = 0.5;
 
     private static getCountdown(): number { return getRandomInt(50, 400) };
 
@@ -42,20 +47,23 @@ export default class Dot  {
         if((this.circle.x - this.circle.r - edgeTolerance) < 0) this.xDirection =  1;
     };
 
-    move():void {
+    move(update:() => void):void {
 
-        this.setDirection();
-        this.setVelocity();
+        this.circle.setUpdateFn(() => {
 
-        this.circle.x += speed * this.xDirection * this.xVelocity;
-        this.circle.y += speed * this.yDirection * this.yVelocity;
+            update();
 
+            this.setDirection();
+            this.setVelocity();
 
+            this.circle.x += this.speed * this.xDirection * this.xVelocity;
+            this.circle.y += this.speed * this.yDirection * this.yVelocity;
+        });
     }
 
 
-    static create(c:Circle):Dot {
-        return new Dot(c);
+    static create(c:Circle, initSpeed:number):Dot {
+        return new Dot(c, initSpeed);
     }
 
 }
