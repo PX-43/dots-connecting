@@ -1,6 +1,7 @@
 import Circle from './Circle';
 import Canvas from './Canvas';
 import Dot from "./Dot";
+import Line from "./Line";
 import { getRandomInt, dist } from "./util";
 
 Canvas.background = '#3b3336';
@@ -12,7 +13,7 @@ const colours:string[] = [
 ];
 
 const dotInitPositionMargin = 20;
-const dotCount = 100;
+const dotCount = 2;
 const zCoords = [1, 2, 3];
 const dots:Dot[] = [];
 
@@ -37,13 +38,11 @@ dots.forEach(d => {
     d.move(() => {
         dots.forEach(otherDot => {
             const distance = dist(d.position(), otherDot.position());
-            if(d !== otherDot && distance < 10){
+            if(d !== otherDot && distance < 1000){
 
-                //todo: add lines to connect dots
 
-                /*//todo: only one of them should be changed (how to calculate which one?)
-                d.xDirection *= -1;
-                d.yDirection *= -1;*/
+                const line = Line.create(d.position(), otherDot.position(), 1, false);
+                line.draw();
             }
         })
     });
