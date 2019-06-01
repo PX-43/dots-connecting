@@ -14,7 +14,7 @@ export default class Canvas implements IDrawable {
     private constructor() {
         this.htmlCanvas = <HTMLCanvasElement> document.createElement('canvas');
         document.body.appendChild(this.htmlCanvas);
-        this.canvas2DContext =  <CanvasRenderingContext2D> this.htmlCanvas.getContext('2d');
+        this.canvas2DContext =  <CanvasRenderingContext2D> this.htmlCanvas.getContext('2d',{ alpha: false });
         window.addEventListener('resize', this.setCanvasSize);
         this.setCanvasSize();
 
@@ -60,6 +60,7 @@ export default class Canvas implements IDrawable {
         return {
             x: Math.floor(Canvas.width / 2),
             y: Math.floor(Canvas.height / 2),
+            z:1,
         };
     }
 

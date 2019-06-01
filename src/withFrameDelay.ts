@@ -7,7 +7,7 @@ const withFrameDelay = (delayable: IFrameDelayable):IRunnable => {
     let counter = delayable.runPoint;
     let canPerform = true;
     const perform = () => {
-        if(canPerform) return;
+        if(!canPerform) return;
 
         if(counter <= 0 ){
             delayable.fn();

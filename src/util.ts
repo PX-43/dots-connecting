@@ -12,3 +12,13 @@ export const getRandomInt = (min:number, max:number) : number => {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
+
+export const pickRandomly = <T>(values: T[]): T | undefined =>
+    values && values.length > 0 ? values[getRandomInt(0, values.length - 1)] : undefined;
+
+export const getUUID = () => {
+    // @ts-ignore
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    )
+};
