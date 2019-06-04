@@ -1,17 +1,12 @@
-import IDrawable from './interfaces/IDrawable';
 import EventLoop from './EventLoop';
 import IPositionable from "./interfaces/IPositionable";
 import { DEFAULT_CANVAS_BKG_COLOUR } from "./constants";
 import IPoint from "./interfaces/IPoint";
 
-
 let htmlCanvas: HTMLCanvasElement;
 let canvas2DContext: CanvasRenderingContext2D;
 let backgroundColour: string = DEFAULT_CANVAS_BKG_COLOUR;
 
-//as this is used in the window context (see window.addEventListener above), 'this' would refer
-// to the window object. By using an arrow function, lexical scope used, i.e. 'this'
-// now refers to the parent object
 const setCanvasSize = () : void => {
     htmlCanvas.width = window.innerWidth;
     htmlCanvas.height = window.innerHeight;
@@ -29,24 +24,23 @@ const lazilyCreateCanvas = ():void => {
     }
 };
 
-const draw = (): void => {
-    lazilyCreateCanvas();
-    canvas2DContext.fillStyle = backgroundColour;
-    canvas2DContext.fillRect(0, 0, htmlCanvas.width, htmlCanvas.height);
-};
-
 const getCtx = (): CanvasRenderingContext2D => {
     lazilyCreateCanvas();
     return canvas2DContext;
 };
 
-const getCanvas = ():HTMLCanvasElement => {
+const getCanvas = (): HTMLCanvasElement => {
     lazilyCreateCanvas();
     return htmlCanvas;
 };
 
 const width = (): number => getCanvas().width;
 const height = (): number => getCanvas().height;
+
+const draw = (): void => {
+    getCtx().fillStyle = backgroundColour;
+    getCtx().fillRect(0, 0, width(), height());
+};
 
 const centre = (): IPoint => {
     return {
@@ -58,18 +52,14 @@ const centre = (): IPoint => {
 
 const detectEdge = (p:IPositionable) : boolean => !p.isWithinRect(0, 0, width(), height());
 
-
-
-const canvasUtils = ():{} => {
-    return {
-        centre,
-        width,
-        height,
-        detectEdge,
-        ctx: () => getCtx(),
-    };
-};
-
-const canvas = Object.freeze( canvasUtils() );
+const canvas = Object.freeze({
+    centre,
+    width,
+    height,
+    detectEdge,
+    get ctx() { return getCtx(); },
+    get backgroundColour() {return backgroundColour;},
+    set backgroundColour(value) {backgroundColour = value;},
+});
 
 export default canvas;

@@ -1,4 +1,4 @@
-import Canvas from './Canvas';
+import canvas from './canvasFn';
 import EventLoop from './EventLoop';
 import IDrawable from "./interfaces/IDrawable";
 import IPositionable from "./interfaces/IPositionable";
@@ -27,24 +27,26 @@ export default class Circle implements IDrawable, IPositionable {
 
         this.updateFn();
 
-        Canvas.ctx.save();
-        Canvas.ctx.globalAlpha = this.alpha;
-        Canvas.ctx.beginPath();
-        Canvas.ctx.shadowColor = this.fillColour;
-        Canvas.ctx.shadowBlur = this.shadowBlur;
-        Canvas.ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
+        const ctx = canvas.ctx;
+
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        ctx.shadowColor = this.fillColour;
+        ctx.shadowBlur = this.shadowBlur;
+        ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
 
         if(this.fillColour !== NO_COLOUR){
-            Canvas.ctx.fillStyle = this.fillColour;
-            Canvas.ctx.fill();
+            ctx.fillStyle = this.fillColour;
+            ctx.fill();
         }
 
         if(this.strokeColour !== NO_COLOUR && this.strokeWidth > 0){
-            Canvas.ctx.lineWidth = this.strokeWidth;
-            Canvas.ctx.strokeStyle = this.strokeColour;
-            Canvas.ctx.stroke();
+            ctx.lineWidth = this.strokeWidth;
+            ctx.strokeStyle = this.strokeColour;
+            ctx.stroke();
         }
-        Canvas.ctx.restore();
+        ctx.restore();
     }
 
     isWithinRect(x1:number, y1:number, x2:number, y2:number): boolean {
