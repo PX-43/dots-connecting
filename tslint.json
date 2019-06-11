@@ -6,6 +6,7 @@
     },
     "quotemark": [true, "single", "jsx-double"],
     "object-literal-sort-keys": false,
+    "arrow-parens": [true, "ban-single-arg-parens"],
     "new-parens": true,
     "no-arg": true,
     "no-bitwise": true,

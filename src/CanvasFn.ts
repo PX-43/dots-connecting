@@ -1,26 +1,30 @@
+import {DEFAULT_CANVAS_BKG_COLOUR, NOOP} from './constants';
 import EventLoop from './EventLoop';
-import IPositionable from "./interfaces/IPositionable";
-import { DEFAULT_CANVAS_BKG_COLOUR } from "./constants";
-import IPoint from "./interfaces/IPoint";
+import IPoint from './interfaces/IPoint';
+import IPositionable from './interfaces/IPositionable';
 
 let htmlCanvas: HTMLCanvasElement;
 let canvas2DContext: CanvasRenderingContext2D;
 let backgroundColour: string = DEFAULT_CANVAS_BKG_COLOUR;
 
-const setCanvasSize = () : void => {
+const setCanvasSize = (): void => {
     htmlCanvas.width = window.innerWidth;
     htmlCanvas.height = window.innerHeight;
 };
 
-const lazilyCreateCanvas = ():void => {
-    if(!htmlCanvas) {
-        htmlCanvas = <HTMLCanvasElement> document.createElement('canvas');
+const lazilyCreateCanvas = (): void => {
+    if (!htmlCanvas) {
+        htmlCanvas = document.createElement('canvas') as HTMLCanvasElement;
         document.body.appendChild(htmlCanvas);
-        canvas2DContext =  <CanvasRenderingContext2D> htmlCanvas.getContext('2d',{ alpha: false });
+        canvas2DContext =  htmlCanvas.getContext('2d', { alpha: false }) as CanvasRenderingContext2D;
         window.addEventListener('resize', setCanvasSize);
         setCanvasSize();
 
-        EventLoop.registerCanvas({draw});
+        EventLoop.registerCanvas({
+            draw,
+            canDraw: true,
+            updateFn: NOOP,
+        });
     }
 };
 
@@ -46,11 +50,11 @@ const centre = (): IPoint => {
     return {
         x: Math.floor(width() / 2),
         y: Math.floor(height() / 2),
-        z:1,
+        z: 1,
     };
 };
 
-const detectEdge = (p:IPositionable) : boolean => !p.isWithinRect(0, 0, width(), height());
+const detectEdge = (p: IPositionable): boolean => !p.isWithinRect({x: 0, y: 0}, {x: width(), y: height()});
 
 const canvas = Object.freeze({
     centre,
@@ -58,8 +62,8 @@ const canvas = Object.freeze({
     height,
     detectEdge,
     get ctx() { return getCtx(); },
-    get backgroundColour() {return backgroundColour;},
-    set backgroundColour(value) {backgroundColour = value;},
+    get backgroundColour() {return backgroundColour; },
+    set backgroundColour(value) {backgroundColour = value; },
 });
 
 export default canvas;

@@ -6,8 +6,6 @@ import IDrawable from './interfaces/IDrawable';
 import IPoint from './interfaces/IPoint';
 import IPositionable from './interfaces/IPositionable';
 
-type CircleType = IPositionable | IDrawable;
-
 export const createCircle = ({    position = {x: 5, y: 5, z: 1} as IPoint,
                                   r = 20,
                                   canDraw = true,
@@ -15,8 +13,8 @@ export const createCircle = ({    position = {x: 5, y: 5, z: 1} as IPoint,
                                   fillColour = '#fffa00',
                                   strokeColour = NO_COLOUR,
                                   strokeWidth = 0,
-                                  shadowBlur = 0   } = {}): CircleType => {
-    let _updateFn: Function = NOOP;
+                                  shadowBlur = 0   } = {}): IDrawable & IPositionable  => {
+    let updateFn: () => void = NOOP;
     const circle = {
         r,
         position,
@@ -34,9 +32,9 @@ export const createCircle = ({    position = {x: 5, y: 5, z: 1} as IPoint,
                 left:   this.position.x - this.r,
             };
         },
-        set updateFn(fn: Function) { _updateFn = fn || NOOP; },
+        set updateFn(fn: () => void ) { updateFn = fn || NOOP; },
         draw(): void {
-            _updateFn();
+            updateFn();
             const ctx = canvas.ctx;
 
             ctx.save();

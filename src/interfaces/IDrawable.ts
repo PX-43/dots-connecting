@@ -1,7 +1,7 @@
 
 export default interface IDrawable {
+    updateFn: () => void;
+    canDraw: boolean;
     draw(): void;
-    updateFn: Function;
-    canDraw:boolean;
 }
 

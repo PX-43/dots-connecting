@@ -1,32 +1,24 @@
-import {getRandomInt} from "./util";
-import Canvas from "./Canvas";
-import withFrameDelay from "./withFrameDelay";
-import IPoint from "./interfaces/IPoint";
-import IRunnable from "./interfaces/IRunnable";
-import IPositionable from "./interfaces/IPositionable";
-import IDrawable from "./interfaces/IDrawable";
-import {NOOP} from "./constants";
+import {NOOP} from './constants';
+import IDrawable from './interfaces/IDrawable';
+import IPositionable from './interfaces/IPositionable';
 
-type MovableType = IPositionable | IDrawable;
-export default function toMovable(o:MovableType,
-                                  speed:number,
-                                  xDirection:number,
-                                  yDirection:number) {
+export default function toMovable(o: IDrawable & IPositionable,
+                                  speed: number,
+                                  xDirection: number,
+                                  yDirection: number) {
     const movable = {
         speed,
         xDirection,
         yDirection,
-        xVelocity:1,
-        yVelocity:1,
-        setMoveFn(fn:Function) {
-
-        }
+        xVelocity: 1,
+        yVelocity: 1,
+        setMoveFn(...fns: Array<() => void>) {
+            o.updateFn = (fns && fns.length > 0) ?
+                () => fns.forEach(f => f()) : NOOP;
+        },
     };
 
-    const movableObj = {...o, ...movable};
-
-
-    return movableObj;
+    return {...o, ...movable};
 }
 
 

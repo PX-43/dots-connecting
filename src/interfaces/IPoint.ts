@@ -1,7 +1,7 @@
 
 
 export default interface IPoint {
-    x:number;
-    y:number;
-    z:number;
+    x: number;
+    y: number;
+    z?: number;
 }
