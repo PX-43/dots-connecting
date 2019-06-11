@@ -3,7 +3,8 @@ import IDrawable from "./interfaces/IDrawable";
 const drawables: IDrawable[] = [];
 
 const run = ():void => {
-    drawables.forEach(d => d.draw());
+    drawables.filter(d => d.canDraw)
+             .forEach(d => d.draw());
     window.requestAnimationFrame(() => run());
 };
 

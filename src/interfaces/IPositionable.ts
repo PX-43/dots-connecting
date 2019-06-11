@@ -1,7 +1,8 @@
+import IPoint from "./IPoint";
+import IBoundary from "./IBoundary";
 
 export default interface IPositionable {
-    x:number;
-    y:number;
-    z:number;
-    isWithinRect(x1:number, y1:number, x2:number, y2:number): boolean;
+    position:IPoint;
+    boundary:IBoundary;
+    isWithinRect(pos1:IPoint, pos2:IPoint): boolean;
 }
