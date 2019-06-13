@@ -3,9 +3,9 @@ import IDrawable from './interfaces/IDrawable';
 import IPositionable from './interfaces/IPositionable';
 
 export default function toMovable(o: IDrawable & IPositionable,
-                                  speed: number,
-                                  xDirection: number,
-                                  yDirection: number) {
+                                  speed = 0.5,
+                                  xDirection = 1,
+                                  yDirection = 1) {
     const movable = {
         speed,
         xDirection,
@@ -17,8 +17,11 @@ export default function toMovable(o: IDrawable & IPositionable,
                 () => fns.forEach(f => f()) : NOOP;
         },
     };
+    o.stopDrawing();
+    const newMovable =  {...o, ...movable};
+    newMovable.draw();
 
-    return {...o, ...movable};
+    return newMovable;
 }
 
 

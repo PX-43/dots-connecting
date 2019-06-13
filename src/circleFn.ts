@@ -2,23 +2,21 @@ import canvas from './canvasFn';
 import { NO_COLOUR, NOOP } from './constants';
 import eventLoopFn from './eventLoopFn';
 import IBoundary from './interfaces/IBoundary';
-import IDrawable from './interfaces/IDrawable';
+import ICircle from './interfaces/ICircle';
 import IPoint from './interfaces/IPoint';
-import IPositionable from './interfaces/IPositionable';
 
-export const createCircle = ({    position = {x: 5, y: 5, z: 1} as IPoint,
-                                  r = 20,
-                                  canDraw = true,
-                                  alpha = 1,
-                                  fillColour = '#fffa00',
-                                  strokeColour = NO_COLOUR,
-                                  strokeWidth = 0,
-                                  shadowBlur = 0   } = {}): IDrawable & IPositionable  => {
+export default function createCircle({    position = {x: 5, y: 5, z: 1} as IPoint,
+                                          r = 20,
+                                          alpha = 1,
+                                          fillColour = '#fffa00',
+                                          strokeColour = NO_COLOUR,
+                                          strokeWidth = 0,
+                                          shadowBlur = 0   } = {}): ICircle  {
     let updateFn: () => void = NOOP;
-    const circle = {
+    let isDrawing = false;
+    return {
         r,
         position,
-        canDraw,
         alpha,
         fillColour,
         strokeColour,
@@ -34,9 +32,13 @@ export const createCircle = ({    position = {x: 5, y: 5, z: 1} as IPoint,
         },
         set updateFn(fn: () => void ) { updateFn = fn || NOOP; },
         draw(): void {
+            if (!isDrawing) {
+                isDrawing = true;
+                eventLoopFn.subscribe(this);
+            }
+
             updateFn();
             const ctx = canvas.ctx;
-
             ctx.save();
             ctx.globalAlpha = this.alpha;
             ctx.beginPath();
@@ -57,13 +59,14 @@ export const createCircle = ({    position = {x: 5, y: 5, z: 1} as IPoint,
             ctx.restore();
         },
 
+        stopDrawing(): void {
+            eventLoopFn.unsubscribe(this);
+            isDrawing = false;
+        },
+
         isWithinRect(pos1: IPoint, pos2: IPoint): boolean {
             return  (this.position.x - r) > pos1.x && (this.position.x + r) < pos2.x &&
                 (this.position.y - r) > pos1.y && (this.position.y + r) < pos2.y;
         },
     };
-
-    eventLoopFn.subscribe(circle);
-
-    return circle;
-};
+}
