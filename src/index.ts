@@ -1,7 +1,7 @@
-import toMovable from './animate';
+import animate from './animate';
 import createCircle from './circleFn';
 
-toMovable(
+animate(
     createCircle({position: {x: 100, y: 200}}),
 ).draw();
 
