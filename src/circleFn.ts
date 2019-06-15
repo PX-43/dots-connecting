@@ -24,10 +24,10 @@ export default function createCircle({    position = {x: 5, y: 5, z: 1} as IPoin
         shadowBlur,
         get boundary(): IBoundary {
             return {
-                top:    this.position.y - this.r,
-                right:  this.position.x + this.r,
-                bottom: this.position.y + this.r,
-                left:   this.position.x - this.r,
+                top:    () =>  this.position.y - this.r,
+                right:  () =>  this.position.x + this.r,
+                bottom: () =>  this.position.y + this.r,
+                left:   () =>  this.position.x - this.r,
             };
         },
         set updateFn(fn: () => void ) { updateFn = fn || NOOP; },

@@ -1,15 +1,15 @@
-import IFrameDelayable from "./interfaces/IFrameDelayable";
-import IRunnable from "./interfaces/IRunnable";
+import IFrameDelayable from './interfaces/IFrameDelayable';
+import IRunnable from './interfaces/IRunnable';
 
 // this is supposed to be called for every frame
-const withFrameDelay = (delayable: IFrameDelayable):IRunnable => {
+const withFrameDelay = (delayable: IFrameDelayable): IRunnable => {
 
     let counter = delayable.runPoint;
     let canPerform = true;
     const perform = () => {
-        if(!canPerform) return;
+        if (!canPerform) { return; }
 
-        if(counter <= 0 ){
+        if (counter <= 0 ) {
             delayable.fn();
             counter = delayable.runPointSetFn ?
                         delayable.runPointSetFn() :
@@ -21,9 +21,9 @@ const withFrameDelay = (delayable: IFrameDelayable):IRunnable => {
 
     return {
         perform,
-        get canPerform() {return canPerform;},
-        set canPerform(value) {canPerform = value;},
-    }
+        get canPerform() {return canPerform; },
+        set canPerform(value) {canPerform = value; },
+    };
 };
 
 

@@ -1,6 +1,6 @@
 
 export default interface IFrameDelayable {
     fn: () => void;
-    runPoint:number;
+    runPoint: number;
     runPointSetFn?: () => number;
 }

@@ -55,11 +55,10 @@ export default function animate<T extends posDrawType>(mObj: T,
     });
 
     const setDirectionAtEdge = () => {
-        // todo : check these values - doesn't work
-        if ((movable.boundary.bottom + edgeTolerance) > canvas.height()) { movable.yDirection =  -1; }
-        if ((movable.boundary.top - edgeTolerance) < 0) { movable.yDirection =  1; }
-        if ((movable.boundary.right + edgeTolerance) > canvas.width()) { movable.xDirection =  -1; }
-        if ((movable.boundary.left - edgeTolerance) < 0) { movable.xDirection =  1; }
+        if ((movable.boundary.bottom() + edgeTolerance) > canvas.height()) { movable.yDirection =  -1; }
+        if ((movable.boundary.top() - edgeTolerance) < 0) { movable.yDirection =  1; }
+        if ((movable.boundary.right() + edgeTolerance) > canvas.width()) { movable.xDirection =  -1; }
+        if ((movable.boundary.left() - edgeTolerance) < 0) { movable.xDirection =  1; }
     };
 
     const move = () => {
