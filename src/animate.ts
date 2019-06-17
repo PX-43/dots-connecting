@@ -1,5 +1,4 @@
 import canvas from './canvasFn';
-import {NOOP} from './constants';
 import IDrawable from './interfaces/IDrawable';
 import IMovable from './interfaces/IMovable';
 import IPositionable from './interfaces/IPositionable';
@@ -12,9 +11,9 @@ type posDrawType = IDrawable & IPositionable;
 type movableType = IMovable & IDrawable & IPositionable;
 
 function toMovable<T extends posDrawType>(o: T,
-                                          speed: number,
                                           xDirection: number,
-                                          yDirection: number): movableType {
+                                          yDirection: number,
+                                          speed: number,): movableType {
     const movable = {
         speed,
         xDirection,
@@ -31,11 +30,11 @@ function toMovable<T extends posDrawType>(o: T,
 }
 
 export default function animate<T extends posDrawType>(mObj: T,
-                                                       speed = 0.5,
                                                        xDirection = 1,
-                                                       yDirection = 1): T {
+                                                       yDirection = 1,
+                                                       speed = 0.5,): T {
 
-    const movable = toMovable(mObj, speed, xDirection, yDirection);
+    const movable = toMovable(mObj, xDirection, yDirection, speed);
 
     movable.xVelocity = Math.random();
     movable.yVelocity = Math.random();

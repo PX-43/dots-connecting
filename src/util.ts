@@ -22,3 +22,9 @@ export const getUUID = () => {
         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
     )
 };
+
+export const times = (n: number) : (fn: () => void) => void => {
+    return (fn: () => void): void => {
+        for(let i = 0; i < n; i++) fn();
+    }
+};

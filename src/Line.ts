@@ -16,10 +16,9 @@ export default class Line implements IDrawable {
     strokeColour = '#fffa00';
     lineWidth = 1;
 
+
     draw(): void {
-
         this.updateFn();
-
         Canvas.ctx.save();
         Canvas.ctx.globalAlpha = this.alpha;
         Canvas.ctx.moveTo(this.startPos.x, this.startPos.y);
@@ -29,7 +28,6 @@ export default class Line implements IDrawable {
         Canvas.ctx.stroke();
         Canvas.ctx.restore();
     }
-
 
     setUpdateFn(fn: (c:Line) => void) {
         this.updateFn = () => fn(this);
