@@ -8,5 +8,5 @@ export default interface ICircle extends IDrawable, IPositionable {
     strokeColour: string;
     strokeWidth: number;
     shadowBlur: number;
-    update(...fns: Array<(c: ICircle) => void>): void;
+    update(...fns: Array<() => void>): void;
 }

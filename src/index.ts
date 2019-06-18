@@ -1,15 +1,14 @@
-import move from './animate';
+import {connectWithLines, move} from './animate';
 import canvas from './canvasFn';
 import createCircle from './circleFn';
 import ICircle from './interfaces/ICircle';
-import IPositionable from './interfaces/IPositionable';
-import createLine from './lineFn';
-import {dist, getRandomInt, pickRandomly, times} from './util';
-import {DrawFrequency} from './interfaces/IDrawable';
+import {getRandomInt, pickRandomly, times} from './util';
+
+const connectThreshold = 100;
 
 function createCircles(): ICircle[] {
     const circles: ICircle[] = [];
-    const count = 100;
+    const count = 500;
     const colours: string[] = [
         '#ff4652',
         '#d64dff',
@@ -37,31 +36,11 @@ function createCircles(): ICircle[] {
 
 const getRandDir = () => pickRandomly([-1, 1]);
 const getInitSpeed = (c: ICircle) => c.position.z ? 0.2 / c.position.z : 0.2;
-function connect(c: IPositionable, circles: IPositionable[]): void {
-    const minLineCreationDistance = 300;
-    circles.forEach(otherCircle => {
-            if (c !== otherCircle &&
-                c.position.z === otherCircle.position.z &&
-                c.position.x <= otherCircle.position.x) { // check xpos so only a single line added between 2 dots
-
-                const distance = dist(c.position, otherCircle.position);
-                if (distance < minLineCreationDistance ) {
-                    const line = createLine({startPos: c.position, endPos: otherCircle.position});
-                    line.drawFrequency = DrawFrequency.ONCE;
-                    line.lineWidth = 0.08;
-                    if (c.position.z) {
-                        line.alpha = line.alpha / c.position.z;
-                    }
-                    line.draw();
-                }
-            }
-        });
-}
 createCircles().forEach((c, _, allCircles) => {
         c.draw();
         c.update(
             move( c, getRandDir(), getRandDir(), getInitSpeed(c)),
-            () => connect( c, allCircles ),
+            () => connectWithLines( c, allCircles, connectThreshold),
         );
     },
 );

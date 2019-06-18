@@ -1,8 +1,8 @@
 import {DEFAULT_CANVAS_BKG_COLOUR, NOOP} from './constants';
 import eventLoopFn from './eventLoopFn';
+import {DrawFrequency} from './interfaces/IDrawable';
 import IPoint from './interfaces/IPoint';
 import IPositionable from './interfaces/IPositionable';
-import {DrawFrequency} from './interfaces/IDrawable';
 
 let htmlCanvas: HTMLCanvasElement;
 let canvas2DContext: CanvasRenderingContext2D;

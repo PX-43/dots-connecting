@@ -1,5 +1,5 @@
 
 export default interface IRunnable {
-    canPerform:boolean;
+    canPerform: boolean;
     perform: () => void;
 }

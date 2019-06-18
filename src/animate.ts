@@ -1,9 +1,10 @@
 import canvas from './canvasFn';
-import IDrawable from './interfaces/IDrawable';
+import IDrawable, {DrawFrequency} from './interfaces/IDrawable';
 import IMovable from './interfaces/IMovable';
 import IPositionable from './interfaces/IPositionable';
 import IRunnable from './interfaces/IRunnable';
-import {getRandomInt} from './util';
+import createLine from './lineFn';
+import {dist, getRandomInt} from './util';
 import withFrameDelay from './withFrameDelay';
 
 const edgeTolerance = 2;
@@ -25,10 +26,10 @@ function toMovable<T extends posDrawType>(o: T,
     return {...o, ...movable};
 }
 
-export default function move<T extends posDrawType>(o: T,
-                                                    xDirection = 1,
-                                                    yDirection = 1,
-                                                    speed = 0.5): () => void {
+export function move<T extends posDrawType>(o: T,
+                                            xDirection = 1,
+                                            yDirection = 1,
+                                            speed = 0.5): () => void {
 
     const movable = toMovable(o, xDirection, yDirection, speed);
 
@@ -64,6 +65,27 @@ export default function move<T extends posDrawType>(o: T,
         movable.position.x += movable.speed * movable.xDirection * movable.xVelocity;
         movable.position.y += movable.speed * movable.yDirection * movable.yVelocity;
     };
+}
+
+// todo: improve performance
+export function connectWithLines(c: IPositionable, circles: IPositionable[], connectThreshold = 100): void {
+    circles.forEach(otherCircle => {
+        if (c !== otherCircle &&
+            c.position.z === otherCircle.position.z &&
+            c.position.x <= otherCircle.position.x) { // check xpos so only a single line added between 2 dots
+
+            const distance = dist(c.position, otherCircle.position);
+            if (distance < connectThreshold ) {
+                const line = createLine({startPos: c.position, endPos: otherCircle.position});
+                line.drawFrequency = DrawFrequency.ONCE;
+                line.lineWidth = 0.08;
+                if (c.position.z) {
+                    line.alpha = line.alpha / c.position.z;
+                }
+                line.draw();
+            }
+        }
+    });
 }
 
 

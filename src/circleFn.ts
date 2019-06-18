@@ -3,8 +3,8 @@ import { NO_COLOUR, NOOP } from './constants';
 import eventLoopFn from './eventLoopFn';
 import IBoundary from './interfaces/IBoundary';
 import ICircle from './interfaces/ICircle';
-import IPoint from './interfaces/IPoint';
 import {DrawFrequency} from './interfaces/IDrawable';
+import IPoint from './interfaces/IPoint';
 
 export default function createCircle({    position = {x: 5, y: 5, z: 1} as IPoint,
                                           r = 20,
@@ -33,8 +33,8 @@ export default function createCircle({    position = {x: 5, y: 5, z: 1} as IPoin
             };
         },
         set updateFn(fn: () => void ) { updateFn = fn || NOOP; },
-        update(...fns: Array<(c: ICircle) => void>): void {
-            updateFn = () => fns.forEach(f => f(this));
+        update(...fns: Array<() => void>): void {
+            updateFn = () => fns.forEach(f => f());
         },
         draw(): void {
             if (!isDrawing && this.drawFrequency === DrawFrequency.CONTINUOUS) {
