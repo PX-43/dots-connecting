@@ -5,7 +5,7 @@ import ICircle from './interfaces/ICircle';
 import IPositionable from './interfaces/IPositionable';
 import createLine from './lineFn';
 import {dist, getRandomInt, pickRandomly, times} from './util';
-import {all} from 'q';
+import {DrawFrequency} from './interfaces/IDrawable';
 
 function createCircles(): ICircle[] {
     const circles: ICircle[] = [];
@@ -47,6 +47,7 @@ function connect(c: IPositionable, circles: IPositionable[]): void {
                 const distance = dist(c.position, otherCircle.position);
                 if (distance < minLineCreationDistance ) {
                     const line = createLine({startPos: c.position, endPos: otherCircle.position});
+                    line.drawFrequency = DrawFrequency.ONCE;
                     line.lineWidth = 0.08;
                     if (c.position.z) {
                         line.alpha = line.alpha / c.position.z;
@@ -60,7 +61,7 @@ createCircles().forEach((c, _, allCircles) => {
         c.draw();
         c.update(
             move( c, getRandDir(), getRandDir(), getInitSpeed(c)),
-            connect( c, allCircles )
+            () => connect( c, allCircles ),
         );
     },
 );

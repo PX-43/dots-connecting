@@ -4,6 +4,7 @@ import eventLoopFn from './eventLoopFn';
 import IBoundary from './interfaces/IBoundary';
 import ICircle from './interfaces/ICircle';
 import IPoint from './interfaces/IPoint';
+import {DrawFrequency} from './interfaces/IDrawable';
 
 export default function createCircle({    position = {x: 5, y: 5, z: 1} as IPoint,
                                           r = 20,
@@ -22,6 +23,7 @@ export default function createCircle({    position = {x: 5, y: 5, z: 1} as IPoin
         strokeColour,
         strokeWidth,
         shadowBlur,
+        drawFrequency: DrawFrequency.CONTINUOUS,
         get boundary(): IBoundary {
             return {
                 top:    () =>  this.position.y - this.r,
@@ -35,7 +37,7 @@ export default function createCircle({    position = {x: 5, y: 5, z: 1} as IPoin
             updateFn = () => fns.forEach(f => f(this));
         },
         draw(): void {
-            if (!isDrawing) {
+            if (!isDrawing && this.drawFrequency === DrawFrequency.CONTINUOUS) {
                 isDrawing = true;
                 eventLoopFn.subscribe(this);
             }

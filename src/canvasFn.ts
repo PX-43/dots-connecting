@@ -2,6 +2,7 @@ import {DEFAULT_CANVAS_BKG_COLOUR, NOOP} from './constants';
 import eventLoopFn from './eventLoopFn';
 import IPoint from './interfaces/IPoint';
 import IPositionable from './interfaces/IPositionable';
+import {DrawFrequency} from './interfaces/IDrawable';
 
 let htmlCanvas: HTMLCanvasElement;
 let canvas2DContext: CanvasRenderingContext2D;
@@ -21,6 +22,7 @@ const lazilyCreateCanvas = (): void => {
         setCanvasSize();
 
         eventLoopFn.registerCanvas({
+            drawFrequency: DrawFrequency.CONTINUOUS,
             draw,
             stopDrawing: NOOP,
             updateFn: NOOP,
