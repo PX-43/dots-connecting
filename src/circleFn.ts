@@ -31,6 +31,9 @@ export default function createCircle({    position = {x: 5, y: 5, z: 1} as IPoin
             };
         },
         set updateFn(fn: () => void ) { updateFn = fn || NOOP; },
+        update(...fns: Array<(c: ICircle) => void>): void {
+            updateFn = () => fns.forEach(f => f(this));
+        },
         draw(): void {
             if (!isDrawing) {
                 isDrawing = true;
