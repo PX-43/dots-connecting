@@ -1,9 +1,9 @@
-import canvas from './canvasFn';
+import canvas from './canvas';
 import IDrawable, {DrawFrequency} from './interfaces/IDrawable';
 import IMovable from './interfaces/IMovable';
 import IPositionable from './interfaces/IPositionable';
 import IRunnable from './interfaces/IRunnable';
-import createLine from './lineFn';
+import createLine from './line';
 import {dist, getRandomInt} from './util';
 import withFrameDelay from './withFrameDelay';
 

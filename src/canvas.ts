@@ -1,5 +1,5 @@
 import {DEFAULT_CANVAS_BKG_COLOUR, NOOP} from './constants';
-import eventLoopFn from './eventLoopFn';
+import eventLoop from './eventLoop';
 import {DrawFrequency} from './interfaces/IDrawable';
 import IPoint from './interfaces/IPoint';
 import IPositionable from './interfaces/IPositionable';
@@ -21,7 +21,7 @@ const lazilyCreateCanvas = (): void => {
         window.addEventListener('resize', setCanvasSize);
         setCanvasSize();
 
-        eventLoopFn.registerCanvas({
+        eventLoop.registerCanvas({
             drawFrequency: DrawFrequency.CONTINUOUS,
             draw,
             stopDrawing: NOOP,

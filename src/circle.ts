@@ -1,6 +1,6 @@
-import canvas from './canvasFn';
+import canvas from './canvas';
 import { NO_COLOUR, NOOP } from './constants';
-import eventLoopFn from './eventLoopFn';
+import eventLoop from './eventLoop';
 import IBoundary from './interfaces/IBoundary';
 import ICircle from './interfaces/ICircle';
 import {DrawFrequency} from './interfaces/IDrawable';
@@ -39,7 +39,7 @@ export default function createCircle({    position = {x: 5, y: 5, z: 1} as IPoin
         draw(): void {
             if (!isDrawing && this.drawFrequency === DrawFrequency.CONTINUOUS) {
                 isDrawing = true;
-                eventLoopFn.subscribe(this);
+                eventLoop.subscribe(this);
             }
 
             updateFn();
@@ -65,7 +65,7 @@ export default function createCircle({    position = {x: 5, y: 5, z: 1} as IPoin
         },
 
         stopDrawing(): void {
-            eventLoopFn.unsubscribe(this);
+            eventLoop.unsubscribe(this);
             isDrawing = false;
         },
 

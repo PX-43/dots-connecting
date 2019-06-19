@@ -1,9 +1,9 @@
-import canvas from './canvasFn';
+import canvas from './canvas';
 import { NOOP } from './constants';
-import eventLoopFn from './eventLoopFn';
+import eventLoop from './eventLoop';
+import {DrawFrequency} from './interfaces/IDrawable';
 import ILine from './interfaces/ILine';
 import IPoint from './interfaces/IPoint';
-import {DrawFrequency} from './interfaces/IDrawable';
 
 
 export default function createLine({ startPos = {x: 0, y: 0, z: 1} as IPoint,
@@ -24,7 +24,7 @@ export default function createLine({ startPos = {x: 0, y: 0, z: 1} as IPoint,
         draw(): void {
             if (!isDrawing && this.drawFrequency === DrawFrequency.CONTINUOUS) {
                 isDrawing = true;
-                eventLoopFn.subscribe(this);
+                eventLoop.subscribe(this);
             }
             updateFn();
             const ctx = canvas.ctx;
@@ -39,7 +39,7 @@ export default function createLine({ startPos = {x: 0, y: 0, z: 1} as IPoint,
         },
 
         stopDrawing(): void {
-            eventLoopFn.unsubscribe(this);
+            eventLoop.unsubscribe(this);
             isDrawing = false;
         },
     };

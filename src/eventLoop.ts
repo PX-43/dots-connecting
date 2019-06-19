@@ -30,10 +30,10 @@ const unsubscribe = (drawable: IDrawable) => {
     }
 };
 
-const eventLoopFn = Object.freeze({
+const eventLoop = Object.freeze({
     registerCanvas,
     subscribe,
     unsubscribe,
 });
 
-export default eventLoopFn;
+export default eventLoop;

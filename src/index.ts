@@ -1,14 +1,14 @@
 import {connectWithLines, move} from './animate';
-import canvas from './canvasFn';
-import createCircle from './circleFn';
+import canvas from './canvas';
+import createCircle from './circle';
 import ICircle from './interfaces/ICircle';
 import {getRandomInt, pickRandomly, times} from './util';
 
-const connectThreshold = 100;
+const connectThreshold = 300;
 
 function createCircles(): ICircle[] {
     const circles: ICircle[] = [];
-    const count = 500;
+    const count = 200;
     const colours: string[] = [
         '#ff4652',
         '#d64dff',
